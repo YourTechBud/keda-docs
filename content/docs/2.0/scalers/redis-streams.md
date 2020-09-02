@@ -33,29 +33,29 @@ triggers:
 
 **Parameter list:**
 
-- `address`: Name of the environment variable your deployment uses to get the Redis server URL. The resolved host should follow a format like `my-redis:6379`.
+- `address`/`addressFromEnv`: Name of the environment variable your deployment uses to get the Redis server URL. The resolved host should follow a format like `my-redis:6379`.
    - This is usually resolved from a `Secret V1` or a `ConfigMap V1` collections. `env` and `envFrom` are both supported.
 
-> As an alternative to the `address` field, the user can specify `host` and `port` parameters. 
+> As an alternative to the `address` field, the user can specify `host` and `port` parameters.
 
-- `host`: Name of the environment variable your deployment uses to get the Redis server host. 
+- `host`/`hostFromEnv`: Name of the environment variable your deployment uses to get the Redis server host.
     - This is usually resolved from a `Secret V1` or a `ConfigMap V1` collections. `env` and `envFrom` are both supported.
 
 > It is not required if `address` has been provided
 
-- `port`: Name of the environment variable your deployment uses to get the Redis server port. 
+- `port`: Name of the environment variable your deployment uses to get the Redis server port.
    - This is usually resolved from a `Secret V1` or a `ConfigMap V1` collections. `env` and `envFrom` are both supported.
 
 > It is only to be used along with the `host` attribute and not required if `address` has been provided
 
-- `password` (optional): Name of the environment variable your deployment uses to get the Redis password.
+- `password`/`passwordFromEnv` (optional): Name of the environment variable your deployment uses to get the Redis password.
    - This is usually resolved from a `Secret V1` or a `ConfigMap V1` collections. `env` and `envFrom` are both supported.
 
 - `stream`: Name of the Redis Stream
 
 - `consumerGroup`: Name of the Consumer group associated with Redis Stream
 
-- `pendingEntriesCount`: Threshold for the number of `Pending Entries List`. This is the average target value to scale the workload. Defaults to `5` 
+- `pendingEntriesCount`: Threshold for the number of `Pending Entries List`. This is the average target value to scale the workload. Defaults to `5`
 
 - `databaseIndex`: The Redis database index. Defaults to `0` if not specified
 
@@ -91,8 +91,8 @@ spec:
   triggers:
     - type: redis-streams
       metadata:
-        address: REDIS_HOST
-        password: REDIS_PASSWORD # name of the environment variable in the Deployment
+        addressFromEnv: REDIS_HOST
+        passwordFromEnv: REDIS_PASSWORD # name of the environment variable in the Deployment
         stream: my-stream
         consumerGroup: consumer-group-1
         pendingEntriesCount: "10"

@@ -15,19 +15,19 @@ This specification describes the `redis` trigger that scales based on the length
 triggers:
 - type: redis
   metadata:
-    address: REDIS_HOST # Required host:port format
-    password: REDIS_PASSWORD
+    addressFromEnv: REDIS_HOST # Required host:port format
+    passwordFromEnv: REDIS_PASSWORD
     listName: mylist # Required
     listLength: "5" # Required
     enableTLS: "false" # optional
     databaseIndex: "0" # optional
 ```
 
-The `address` field in the spec holds the host and port of the redis server. This could be an external redis server or one running in the kubernetes cluster.
+The `address`/`addressFromEnv` field in the spec holds the host and port of the redis server. This could be an external redis server or one running in the kubernetes cluster.
 
-As an alternative to the `address` field the user can specify `host` and `port` parameters. 
+As an alternative to the `address`/`addressFromEnv` field the user can specify `host`/`hostFromEnv` and `port` parameters.
 
-Provide the `password` field if the redis server requires a password. Both the hostname and password fields need to be set to the names of the environment variables in the target deployment that contain the host name and password respectively.
+Provide the `password`/`passwordFromEnv` field if the redis server requires a password. Both the hostname and password fields need to be set to the names of the environment variables in the target deployment that contain the host name and password respectively.
 
 The `listName` parameter in the spec points to the Redis List that you want to monitor. The `listLength` parameter defines the average target value for the Horizontal Pod Autoscaler (HPA).
 
@@ -47,7 +47,7 @@ You can authenticate by using a password.
 
 Here is an example of how to deploy a scaled object with the `redis` scale trigger which uses `TriggerAuthentication`.
 
-You can also provide the `password` on the `ScaledObject` directly.
+You can also provide the `password`/`passwordFromEnv` on the `ScaledObject` directly.
 
 ```yaml
 apiVersion: v1
